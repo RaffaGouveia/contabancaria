@@ -1,5 +1,6 @@
 package conta;
 
+import conta.controller.ContaController;
 import conta.model.ContaPoupanca;
 import conta.model.ContaCorrente;
 import conta.model.Conta;
@@ -12,23 +13,11 @@ import java.util.Scanner;
 public class Menu {
 
 	public static void main(String[] args) {
+		ContaController contas = new ContaController();
 		Scanner input = new Scanner(System.in);
-		int opcao;
-		// Teste da Classe Conta Corrente
-				ContaCorrente cc1 = new ContaCorrente(1, 123, 1, "José da Silva", 0.0f, 1000.0f);
-				cc1.visualizar();
-				cc1.sacar(12000.0f);
-				cc1.visualizar();
-				cc1.depositar(5000.0f);
-				cc1.visualizar();
-				
-		        // Teste da Classe Conta Poupança
-				ContaPoupanca cp1 = new ContaPoupanca(2, 123, 2, "Maria dos Santos", 100000.0f, 15);
-				cp1.visualizar();
-		        cp1.sacar(1000.0f);
-				cp1.visualizar();
-				cp1.depositar(5000.0f);
-				cp1.visualizar();
+		int opcao, numero, agencia, tipo, aniversario;
+		String titular;
+		float saldo, limite;
 
 		while (true) {
 			System.out.println(Cores.TEXT_CYAN + Cores.ANSI_BLACK_BACKGROUND
@@ -70,12 +59,39 @@ public class Menu {
 			switch (opcao) {
 			case 1:
 				System.out.println(Cores.TEXT_WHITE + "Criar conta\n\n");
+				System.out.println("Informe o número da agência: ");
+				agencia = input.nextInt();
+				System.out.println("Informe o nome do titular da conta: ");
+				input.skip("\\R?");
+				titular = input.nextLine();
+
+				do {
+					System.out.println("Informe o tipo da conta([1] Conta Corrente // [2] Conta Poupança");
+					tipo = input.nextInt();
+				} while (tipo < 1 && tipo > 2);
+
+				System.out.println("Informe o saldo da conta(R$): ");
+				saldo = input.nextFloat();
+
+				switch (tipo) {
+				case 1 -> {
+					System.out.println("Informe o limite de crédito da conta(R$): ");
+					limite = input.nextFloat();
+					contas.cadastrar(new ContaCorrente(contas.gerarNumero(), agencia, tipo, titular, saldo, limite));
+				}
+				case 2 -> {
+					System.out.println("Informe o dia do aniversário da conta: ");
+					aniversario = input.nextInt();
+					contas.cadastrar(
+							new ContaPoupanca(contas.gerarNumero(), agencia, tipo, titular, saldo, aniversario));
+				}
+				}
 
 				keyPress();
 				break;
 			case 2:
 				System.out.println(Cores.TEXT_WHITE + "Listar todas as contas\n\n");
-
+				contas.listarTodas();
 				keyPress();
 				break;
 			case 3:
@@ -109,8 +125,10 @@ public class Menu {
 				keyPress();
 				break;
 			default:
-				System.out.println(Cores.TEXT_RED_BOLD + "Opção inválida. Por favor, insira uma opção válida.\n"+ Cores.TEXT_RESET);
+				System.out.println(Cores.TEXT_RED_BOLD + "Opção inválida. Por favor, insira uma opção válida.\n"
+						+ Cores.TEXT_RESET);
 				keyPress();
+				break;
 			}
 		}
 	}
@@ -119,7 +137,7 @@ public class Menu {
 
 		try {
 
-			System.out.println(Cores.TEXT_RESET + "\nPressione Enter para continuar... ");
+			System.out.println(Cores.TEXT_RESET + "\nAperte Enter para prosseguir! ");
 			System.in.read();
 		} catch (IOException e) {
 

@@ -31,7 +31,7 @@ public class ContaCorrente extends Conta {
 	@Override
 	public void visualizar() {
 		super.visualizar();
-		System.out.println("               Saldo : " + this.limite + "                               ");
+		System.out.println("                 Saldo : " + this.limite + "                                          ");
 		System.out.println(" ||====================================================================||");
 	}
 }

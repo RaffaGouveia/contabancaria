@@ -84,15 +84,15 @@ public abstract class  Conta {
 		System.out.println(" ||                       Dados da conta                               ||");
 		System.out.println(" ||                                                                    ||");
 		System.out.println(" ||====================================================================||");
-		System.out.println("                 Número da conta : " + this.numero + "                   ");
+		System.out.println("                 Número da conta : " + this.numero + "                                     ");
 		System.out.println(" ||====================================================================||");
-		System.out.println("                 Agência : " + this.agencia + "                          ");
+		System.out.println("                 Agência : " + this.agencia + "                                           ");
 		System.out.println(" ||====================================================================||");
-		System.out.println("                 Tipo de conta : " + tipo + "                            ");
+		System.out.println("                 Tipo de conta : " + tipo + "                          ");
 		System.out.println(" ||====================================================================||");
-		System.out.println("                 Titular : " + this.titular + "                          ");
+		System.out.println("                 Titular : " + this.titular + "                                ");
 		System.out.println(" ||====================================================================||");
-		System.out.println("                 Saldo : " + this.saldo + "                              ");
+		System.out.println("                 Saldo : " + this.saldo + "                                          ");
 		System.out.println(" ||====================================================================||");
 
 	}
