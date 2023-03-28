@@ -45,7 +45,6 @@ public class Menu {
 			try {
 				opcao = input.nextInt();
 			} catch (InputMismatchException e) {
-				System.out.println("Por favor, digite números inteiros! ");
 				input.nextLine();
 				opcao = 0;
 			}
@@ -85,6 +84,9 @@ public class Menu {
 					contas.cadastrar(
 							new ContaPoupanca(contas.gerarNumero(), agencia, tipo, titular, saldo, aniversario));
 				}
+				default -> {
+					System.out.println("Tipo de conta inválida!");
+				}
 				}
 
 				keyPress();
@@ -96,12 +98,52 @@ public class Menu {
 				break;
 			case 3:
 				System.out.println(Cores.TEXT_WHITE + "Buscar conta por número\n\n");
+				System.out.println("Informe o número da conta que deseja encontrar: ");
+				numero = input.nextInt();
+
+				contas.procurarPorNumero(numero);
 
 				keyPress();
 				break;
 			case 4:
 				System.out.println(Cores.TEXT_WHITE + "Atualizar dados da conta\n\n");
+				numero = input.nextInt();
+				if (contas.buscarNaCollection(numero) != null) {
 
+					System.out.println("Informe o número da agência: ");
+					agencia = input.nextInt();
+					System.out.println("Informe o nome do titular da conta: ");
+					input.skip("\\R?");
+					titular = input.nextLine();
+
+					tipo = contas.retornaTipo(numero);
+
+					System.out.println("Informe o saldo da conta(R$): ");
+					saldo = input.nextFloat();
+
+					switch (tipo) {
+					case 1 -> {
+						System.out.println("Informe o limite de crédito da conta(R$): ");
+						limite = input.nextFloat();
+						contas.cadastrar(
+								new ContaCorrente(contas.gerarNumero(), agencia, tipo, titular, saldo, limite));
+						System.out.println("A conta número " + numero + " foi atualizada com sucesso");
+					}
+					case 2 -> {
+						System.out.println("Informe o dia do aniversário da conta: ");
+						aniversario = input.nextInt();
+						contas.cadastrar(
+								new ContaPoupanca(contas.gerarNumero(), agencia, tipo, titular, saldo, aniversario));
+						System.out.println("A conta número " + numero + " foi atualizada com sucesso");
+					}
+					default -> {
+						System.out.println("Tipo de conta inválida!");
+					}
+
+					}
+				} else {
+					System.out.println("A conta" + numero + " não foi encontrada!");
+				}
 				keyPress();
 				break;
 			case 5:
@@ -125,8 +167,10 @@ public class Menu {
 				keyPress();
 				break;
 			default:
-				System.out.println(Cores.TEXT_RED_BOLD + "Opção inválida. Por favor, insira uma opção válida.\n"
-						+ Cores.TEXT_RESET);
+				if (opcao < 1 || opcao > 9) {
+					System.out.println(Cores.TEXT_RED_BOLD + "Opção inválida. Por favor, insira uma opção válida.\n"
+							+ Cores.TEXT_RESET);
+				}
 				keyPress();
 				break;
 			}
