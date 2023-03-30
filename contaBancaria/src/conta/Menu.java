@@ -15,9 +15,9 @@ public class Menu {
 	public static void main(String[] args) {
 		ContaController contas = new ContaController();
 		Scanner input = new Scanner(System.in);
-		int opcao, numero, agencia, tipo, aniversario;
+		int opcao, numero, agencia, tipo, aniversario, numeroDestino;
 		String titular;
-		float saldo, limite;
+		float saldo, limite, valor;
 
 		while (true) {
 			System.out.println(Cores.TEXT_CYAN + Cores.ANSI_BLACK_BACKGROUND
@@ -67,7 +67,7 @@ public class Menu {
 				do {
 					System.out.println("Informe o tipo da conta([1] Conta Corrente // [2] Conta Poupança");
 					tipo = input.nextInt();
-				} while (tipo < 1 && tipo > 2);
+				} while (tipo != 1 && tipo != 2);
 
 				System.out.println("Informe o saldo da conta(R$): ");
 				saldo = input.nextFloat();
@@ -149,21 +149,57 @@ public class Menu {
 			case 5:
 				System.out.println(Cores.TEXT_WHITE + "Apagar conta\n\n");
 
+				System.out.println("Digite o número da conta a ser deletada: ");
+				numero = input.nextInt();
+
+				contas.deletar(numero);
+
 				keyPress();
 				break;
 			case 6:
 				System.out.println(Cores.TEXT_WHITE + "Sacar\n\n");
+
+				System.out.println("Informe o número da conta: ");
+				numero = input.nextInt();
+
+				do {
+					System.out.println("Digite o valor do saque(R$): ");
+					valor = input.nextFloat();
+				} while (valor <= 0);
+
+				contas.sacar(numero, valor);
 
 				keyPress();
 				break;
 			case 7:
 				System.out.println(Cores.TEXT_WHITE + "Depositar\n\n");
 
+				System.out.println("Informe o número da conta: ");
+				numero = input.nextInt();
+
+				do {
+					System.out.println("Digite o valor do depósito(R$): ");
+					valor = input.nextFloat();
+				} while (valor <= 0);
+
+				contas.depositar(numero, valor);
+
 				keyPress();
 				break;
 			case 8:
 				System.out.println(Cores.TEXT_WHITE + "Transferir valores entre contas\n\n");
 
+				System.out.println("Informe o número da conta Origem: ");
+				numero = input.nextInt();
+				System.out.println("Informe o número da conta Desino: ");
+				numeroDestino = input.nextInt();
+				do {
+					System.out.println("Digite o valor da transferência(R$): ");
+					valor = input.nextFloat();
+				} while (valor <= 0);
+
+				contas.trasnferir(numero, numeroDestino, valor);
+				
 				keyPress();
 				break;
 			default:
